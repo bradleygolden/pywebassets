@@ -38,7 +38,7 @@ class AssetBase(object):
         if self.devel:
             return self.__class__.script_tag(path)
         else:
-            self.scripts.append(path)
+            self.scripts.append(os.path.join(self.asset_path, self.__class__.SUBDIR, path))
             return ""
 
     def render(self):
@@ -57,7 +57,7 @@ class AssetBase(object):
             if not os.path.isfile(file_path):
                 contents = ""
                 for script in self.scripts:
-                    handle = open(os.path.join(self.asset_path, self.__class__.SUBDIR, script), 'r')
+                    handle = open(script, 'r')
                     contents += handle.read()
                     handle.close()
                 h = hashlib.sha1()
