@@ -1,4 +1,4 @@
-pystatic-assets
+pywebassets
 ===============
 
 Tools for aggregating and compressing CSS and JS in production
