@@ -53,7 +53,8 @@ class AssetBase(object):
             script_summaries = [str(os.path.getmtime(s)) + "-" + s for s in self.scripts]
             h.update("-".join(script_summaries))
             file_name = h.hexdigest() + '.' + self.__class__.SUBDIR
-            file_path = os.path.join(self.asset_path, self.__class__.SUBDIR, 'aggregate', file_name)
+            aggregate_dir_path = os.path.join(self.asset_path, self.__class__.SUBDIR, 'aggregate')
+            file_path = os.path.join(aggregate_dir_path, file_name)
             if not os.path.isfile(file_path):
                 contents = ""
                 for script in self.scripts:
@@ -62,6 +63,8 @@ class AssetBase(object):
                     handle.close()
                 h = hashlib.sha1()
                 h.update(contents)
+                if not os.path.isdir(aggregate_dir_path):
+                    os.mkdir(aggregate_dir_path)
                 w_handle = open(file_path, 'w')
                 w_handle.write(contents)
                 w_handle.close()
